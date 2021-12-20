@@ -1,15 +1,4 @@
-# Basic Sample Hardhat Project
+This app is deployed here: mla-nft-marketplace.netlify.app
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, a sample script that deploys that contract, and an example of a task implementation, which simply lists the available accounts.
-
-Try running some of the following tasks:
-
-```shell
-npx hardhat accounts
-npx hardhat compile
-npx hardhat clean
-npx hardhat test
-npx hardhat node
-node scripts/sample-script.js
-npx hardhat help
-```
+The app is a fully functional NFT marketplace where you can list, sell and track your nft's.
+The smart contracts were programmed in Solidity with Next.js running the front and backend. Styling with TailwindCSS and Bootstrap.
