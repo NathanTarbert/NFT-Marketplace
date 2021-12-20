@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: MIT
+// SPDX-License-Identifier: MIT OR Apache-2.0
 pragma solidity ^0.8.4;
 
 import "@openzeppelin/contracts/utils/Counters.sol";
@@ -8,21 +8,21 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "hardhat/console.sol";
 
 contract NFT is ERC721URIStorage {
-    using Counters for Counters.Counter;//importing Counters so we can track each NFT and that value starts at 0
+    using Counters for Counters.Counter;
     Counters.Counter private _tokenIds;
     address contractAddress;
 
-    constructor(address marketPlaceAddress) ERC721('Metaverse Tokens', 'METT') {
-        contractAddress = marketPlaceAddress;
+    constructor(address marketplaceAddress) ERC721("Metaverse", "METT") {
+        contractAddress = marketplaceAddress;
     }
 
     function createToken(string memory tokenURI) public returns (uint) {
-        _tokenIds.increment();//this will incriment the value starting at 0
+        _tokenIds.increment();
         uint256 newItemId = _tokenIds.current();
 
-        _mint(msg.sender, newItemId);//this will add a token id to each NFT that is minted
+        _mint(msg.sender, newItemId);
         _setTokenURI(newItemId, tokenURI);
-        setAppovalForAll(contractAddress, true);
+        setApprovalForAll(contractAddress, true);
         return newItemId;
     }
 }
