@@ -1,5 +1,5 @@
 require("@nomiclabs/hardhat-waffle");
-// require("@nomiclabs/hardhat-ganache");
+require("@nomiclabs/hardhat-ganache");
 // require("dotenv").config();
 // require("solidity-coverage");
 
@@ -11,7 +11,7 @@ const projectId = '4625d8a5e77f4c678b39423652c6f6cd';//this id should be brought
 module.exports = {
    networks: {
     hardhat: {
-      chainId: 31337
+      chainId: 1337
     },
     mumbai: {
       url: `https://polygon-mumbai.infura.io/v3/${projectId}`,
