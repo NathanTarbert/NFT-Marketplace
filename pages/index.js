@@ -1,6 +1,8 @@
 /* pages/index.js */
 import { ethers } from 'ethers';
 import { useEffect, useState } from 'react';
+import Head from 'next/head';
+import Image from 'next/image';
 import axios from 'axios';//data fetching library
 import Web3Modal from "web3modal";//allows us to connect to a wallet
 
@@ -11,7 +13,7 @@ import Market from '../artifacts/contracts/Market.sol/NFTMarket.json';
 
 export default function Home() {
   const [nfts, setnfts] = useState([]);
-  const [loadingState, setLoadingState] = useState('not-loaded');
+  const [loadingState, setLoadingState] = useState(false);
 
   useEffect(() => {
     loadNFTs();
@@ -27,8 +29,9 @@ export default function Home() {
     *  them as well as fetch their token metadata
     */
 
-    const items = await Promise.all(data.map(async i => {
-      const tokenUri = await tokenContract.tokenUri(i.tokenId);
+    const items = await Promise.all(
+      data.map(async (i) => {
+      const tokenUri = await tokenContract.tokenURI(i.tokenId);
       const meta = await axios.get(tokenUri); // this will be the token id
       let price = ethers.utils.formatUnits(i.price.toString(), 'ether');//this will format the price and remove the 18 zeros
       let item = {
@@ -43,7 +46,9 @@ export default function Home() {
       return item;
     }));
     setnfts(items);
-    setLoadingState('loaded');
+    setLoadingState(true);
+    // let image = nfts[0].image;
+    console.log('nfts', nfts);
   }
 
   async function buyNft(nft) {
@@ -56,27 +61,32 @@ export default function Home() {
 
     price = ethers.utils.parseUnits(nft.price.toString(), 'ether');
 
-    const transaction = await contract.createMarketSale(nftaddress, nft.tokenId, {
+    const transaction = await contract.createMarketSale(
+      nftaddress, 
+      nft.tokenId, {
       value: price
     });
     await transaction.wait();
     loadNFTs();
-
   }
 
-  if (loadingState === 'loaded' && !nfts.length) return (
+  if (loadingState === true && !nfts.length) return (
     <h1 className="px-20 py-10 text-3xl">No items in marketplace</h1>
-  )
-  
+  )  
 
   return (
+
+     <>
+      <Head>
+        <title>NFT Marketplace</title>
+      </Head>
     <div className="flex justify-center">
       <div className="px-4" style={{maxWidth: '1600px' }}>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4">
           {
             nfts.map((nft, index) => {
               <div key={index} className="border shadow rounded-xl overflow-hidden">
-                <image src={nft.image} />
+                <Image src={nft.image} alt='NFT' />
                 <div className="p-4">
                   <p style={{ height: '64px'}} className="text-2xl font-semibold">{nft.name}</p>
                   <div style={{ height: '70px', overflow: 'hidden'}}>
@@ -85,7 +95,7 @@ export default function Home() {
                 </div>
                 <div className="p-4 bg-black">
                   <p className="text-2xl mb-4 font-bold text-white">{nft.price} MATIC</p>
-                  <button className="w-full bg-pink-500 text-white font-bold py-2 px-12 rounded" 
+                  <button className="w-full bg-teal-700 text-white font-bold py-2 px-12 rounded" 
                   onClick={() => buyNft(nft)}>Buy</button>
                 </div>
               </div>
@@ -94,5 +104,6 @@ export default function Home() {
         </div>
       </div>
     </div>
+    </>
   )
 }
