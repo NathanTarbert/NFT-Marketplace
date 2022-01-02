@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 import Image from 'next/image';
 import Head from 'next/head';
 import Web3Modal from 'web3modal';
+import axios from 'axios';//data fetching library
 
 import { nftaddress, nftmarketaddress } from '../config';
 
@@ -65,10 +66,16 @@ export default function MyAssets() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4">
           {
             nfts.map((nft, i) => (
-              <div key={i} className="border shadow rounded-xl overflow-hidden">
-                <Image src={nft.image} className="rounded" alt='sold-NFT' />
-                <div className="p-4 bg-black">
-                  <p className="text-2xl font-bold text-white">Price - {nft.price} Eth</p>
+              <div key={i} className="border shadow rounded-xl overflow-hidden text-center pt-3">
+                <Image
+                        src={nft.image}
+                        alt="sold-NFT"
+                        width="300"
+                        height="300"
+                        objectFit="contain"
+                  />
+                <div className="p-4 bg-slate-800">
+                  <p className="text-2xl font-bold text-white">Price - {nft.price} MATIC</p>
                 </div>
               </div>
             ))
@@ -84,7 +91,13 @@ export default function MyAssets() {
                 {
                   sold.map((nft, i) => (
                     <div key={i} className="border shadow rounded-xl overflow-hidden">
-                      <Image src={nft.image} className="rounded" alt='Creator-NFT' />
+                     <Image
+                        src={nft.image}
+                        alt="creator-NFT"
+                        width="300"
+                        height="300"
+                        objectFit="contain"
+                  />
                       <div className="p-4 bg-black">
                         <p className="text-2xl font-bold text-white">Price - {nft.price} Eth</p>
                       </div>

@@ -114,7 +114,7 @@ export default function CreateItem() {
             </div>            
           )
         }
-        <button onClick={createMarket} className="font-bold mt-4 bg-teal-500 text-white rounded p-4 shadow-lg">
+        <button onClick={createMarket} className="font-bold mt-4 bg-gradient-to-r from-blue-500 to-cyan-200 text-white rounded p-4 shadow-lg">
           Create Digital Asset
         </button>
       </div>
