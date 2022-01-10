@@ -4,30 +4,26 @@ import { useEffect, useState } from 'react';
 import Head from 'next/head';
 import Image from 'next/image';
 import axios from 'axios';//data fetching library
-import Web3Modal from "web3modal";//allows us to connect to a wallet
-
+import Web3Modal from "web3modal";//allows us to connect to a Metamask wallet
 import { nftaddress, nftmarketaddress } from "../config";
 import NFT from "../artifacts/contracts/NFT.sol/NFT.json";
-import Market from "../artifacts/contracts/Market.sol/NFTMarket.json";
+import Market from "../artifacts/contracts/NFTMarket.sol/NFTMarket.json";
 
 export default function Home() {
   const [nfts, setnfts] = useState([]);
   const [loadingState, setLoadingState] = useState(false);
-
   useEffect(() => {
     loadNFTs();
   },[]);
 
   async function loadNFTs() {
-    const provider = new ethers.providers.JsonRpcProvider();
+    const provider = new ethers.providers.JsonRpcProvider("https://ropsten.infura.io/v3/");// will need one of the RPC's from the Mumbai Testnet site "https://matic-mumbai.chainstacklabs.com"
     const tokenContract = new ethers.Contract(nftaddress, NFT.abi, provider);
     const marketContract = new ethers.Contract(nftmarketaddress, Market.abi, provider);
     const data = await marketContract.fetchMarketItems();//this is referencing the function in our Market contract
-     /*
-    *  map over items returned from smart contract and format 
-    *  them as well as fetch their token metadata
-    */
-
+     
+      
+    // map over items returned from smart contract and format them as well as fetch their token metadata    
     const items = await Promise.all(
       data.map(async (i) => {
       const tokenUri = await tokenContract.tokenURI(i.tokenId);
@@ -58,7 +54,7 @@ export default function Home() {
     const signer = provider.getSigner();
     const contract = new ethers.Contract(nftmarketaddress, Market.abi, signer);
 
-    let price = ethers.utils.parseUnits(nft.price.toString(), 'ether');
+    let price = ethers.utils.parseUnits(nft.price.toString(), "ether");
 
     const transaction = await contract.createMarketSale(
       nftaddress, 

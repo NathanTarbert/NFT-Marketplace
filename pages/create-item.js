@@ -9,7 +9,7 @@ import Web3Modal from 'web3modal';
 import { nftaddress, nftmarketaddress } from '../config';
 
 import NFT from '../artifacts/contracts/NFT.sol/NFT.json';
-import Market from '../artifacts/contracts/Market.sol/NFTMarket.json';
+import Market from '../artifacts/contracts/NFTMarket.sol/NFTMarket.json';
 
 const client = ipfsHttpClient('https://ipfs.infura.io:5001/api/v0');
 
@@ -110,7 +110,7 @@ export default function CreateItem() {
         {
           fileUrl && (
             <div>
-                <Image className="rounded mt-4" width="350" height='350' alt='NFT' objectFit='contain' src={fileUrl} />
+                <Image className="rounded mt-4" width="250" height='250' alt='NFT' objectFit='contain' src={fileUrl} />
             </div>            
           )
         }

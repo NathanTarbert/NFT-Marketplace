@@ -3,6 +3,7 @@ import { ethers } from 'ethers';
 import { create as ipfsHttpClient } from 'ipfs-http-client';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
+import Link from 'next/link';
 import Head from 'next/head';
 import Web3Modal from 'web3modal';
 import axios from 'axios';//data fetching library
@@ -10,7 +11,7 @@ import axios from 'axios';//data fetching library
 import { nftaddress, nftmarketaddress } from '../config';
 
 import NFT from '../artifacts/contracts/NFT.sol/NFT.json';
-import Market from '../artifacts/contracts/Market.sol/NFTMarket.json';
+import Market from '../artifacts/contracts/NFTMarket.sol/NFTMarket.json';
 
 const client = ipfsHttpClient('https://ipfs.infura.io:5001/api/v0');
 
@@ -71,11 +72,14 @@ export default function MyAssets() {
                         width="300"
                         height="300"
                         objectFit="contain"
-                  />
+                  />                  
                 <div className="p-4 bg-black">
-                  <p className="text-2xl font-bold text-white">Price - {nft.price} Eth</p>
+                  <p className="text-2xl font-bold text-white">Price - {nft.price} MATIC</p>
+                </div>               
+                  <button>
+                    owner
+                  </button>         
                 </div>
-              </div>
             ))
           }
         </div>
