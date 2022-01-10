@@ -10,7 +10,7 @@ import axios from 'axios';//data fetching library
 import { nftaddress, nftmarketaddress } from '../config';
 
 import NFT from '../artifacts/contracts/NFT.sol/NFT.json';
-import Market from '../artifacts/contracts/Market.sol/NFTMarket.json';
+import Market from '../artifacts/contracts/NFTMarket.sol/NFTMarket.json';
 
 const client = ipfsHttpClient('https://ipfs.infura.io:5001/api/v0');
 
@@ -62,7 +62,7 @@ export default function MyAssets() {
     </Head>
     <div>
       <div className="p-4">
-        <h2 className="text-2xl py-2">Items Created</h2>
+        <h2 className="text-2xl py-2 ">Your Assets</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4">
           {
             nfts.map((nft, i) => (
@@ -99,7 +99,7 @@ export default function MyAssets() {
                         objectFit="contain"
                   />
                       <div className="p-4 bg-black">
-                        <p className="text-2xl font-bold text-white">Price - {nft.price} Eth</p>
+                        <p className="text-2xl font-bold text-white">Price - {nft.price} MATIC</p>
                       </div>
                     </div>
                   ))
