@@ -6,17 +6,32 @@ import Image from 'next/image';
 import Head from 'next/head';
 import Web3Modal from 'web3modal';
 
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 import { nftaddress, nftmarketaddress } from '../config';
 
 import NFT from '../artifacts/contracts/NFT.sol/NFT.json';
 import Market from '../artifacts/contracts/NFTMarket.sol/NFTMarket.json';
 
-const client = ipfsHttpClient('https://ipfs.infura.io:5001/api/v0');
+
 
 export default function CreateItem() {
   const [fileUrl, setFileUrl] = useState(null);
   const [formInput, updateFormInput] = useState({ price: '', name: '', description: '' });
   const router = useRouter();
+
+  const client = ipfsHttpClient('https://ipfs.infura.io:5001/api/v0');
+
+  const notify = (id, msg) =>
+    toast(msg, {
+      toastId: id,
+      autoClose: false,
+      type: toast.TYPE.INFO,
+      closeButton: false,
+      theme: "colored",
+    });
+
 
   async function onChange(e) {
     const file = e.target.files[0];
@@ -31,11 +46,41 @@ export default function CreateItem() {
       setFileUrl(url);
     } catch (error) {
       console.log('Error uploading file: ', error);
+      toast.error("Error uploading file: ", {
+        theme: "colored",
+      });      
     }  
   }
   async function createMarket() {
     const { name, description, price } = formInput;
-    if (!name || !description || !price || !fileUrl) return;
+    if ( !name || !description || !price ) {
+      toast.error("Please fill in all feilds:", {
+        theme: "colored",
+      });
+      return;
+    }
+
+    
+    if (!is_Int(price)) {
+      toast.error("Price must be a number", {
+        theme: "colored",
+      });
+      return;
+    }
+
+    if (!fileUrl) {
+      toast.error("Please select a file", {
+        theme: "colored",
+      });
+      return;
+    }
+
+    // first, upload to IPFS
+    const data = JSON.stringify({
+      name,
+      description,
+      image: fileUrl,
+    });
     /* first, upload to IPFS */
     const data = JSON.stringify({
       name, description, image: fileUrl
@@ -71,7 +116,11 @@ export default function CreateItem() {
     let listingPrice = await contract.getListingPrice();
     listingPrice = listingPrice.toString();
 
-    transaction = await contract.createMarketItem(nftaddress, tokenId, price, { value: listingPrice });
+    transaction = await contract.createMarketItem(nftaddress, tokenId, price,
+      { 
+         value: listingPrice 
+      }
+    );
     await transaction.wait();
     router.push('/');
   }

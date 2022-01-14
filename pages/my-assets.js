@@ -74,7 +74,7 @@ export default function MyAssets() {
                         objectFit="contain"
                   />                  
                 <div className="p-4 bg-black">
-                  <p className="text-2xl font-bold text-white">Price - {nft.price} MATIC</p>
+                  <p className="text-2xl font-bold text-white">Price - {nft.price} ETH</p>
                 </div>               
                   <button>
                     owner
