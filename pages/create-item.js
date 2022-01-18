@@ -14,8 +14,6 @@ import { nftaddress, nftmarketaddress } from '../config';
 import NFT from '../artifacts/contracts/NFT.sol/NFT.json';
 import Market from '../artifacts/contracts/NFTMarket.sol/NFTMarket.json';
 
-
-
 export default function CreateItem() {
   const [fileUrl, setFileUrl] = useState(null);
   const [formInput, updateFormInput] = useState({ price: '', name: '', description: '' });
@@ -53,34 +51,27 @@ export default function CreateItem() {
   }
   async function createMarket() {
     const { name, description, price } = formInput;
-    if ( !name || !description || !price ) {
-      toast.error("Please fill in all feilds:", {
-        theme: "colored",
-      });
-      return;
-    }
+  //   if ( !name || !description || !price ) {
+  //     toast.error("Please fill in all feilds:", {
+  //       theme: "colored",
+  //     });
+  //     return;    }
 
     
-    if (!is_Int(price)) {
-      toast.error("Price must be a number", {
-        theme: "colored",
-      });
-      return;
-    }
+  //   if (!is_Int(price)) {
+  //     toast.error("Price must be a number", {
+  //       theme: "colored",
+  //     });
+  //     return;
+  //   }
 
-    if (!fileUrl) {
-      toast.error("Please select a file", {
-        theme: "colored",
-      });
-      return;
-    }
+  //   if (!fileUrl) {
+  //     toast.error("Please select a file", {
+  //       theme: "colored",
+  //     });
+  //     return;
+  //   }
 
-    // first, upload to IPFS
-    const data = JSON.stringify({
-      name,
-      description,
-      image: fileUrl,
-    });
     /* first, upload to IPFS */
     const data = JSON.stringify({
       name, description, image: fileUrl
