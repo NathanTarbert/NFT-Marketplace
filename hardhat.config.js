@@ -12,7 +12,7 @@ module.exports = {
     hardhat: {
       chainId: 1337,
     },
-    kovan: {
+    mumbai: {
       // url: `https://polygon-mumbai.infura.io/v3/${process.env.PROJECT_ID}`,
       url: `https://kovan.infura.io/v3/${process.env.PROJECT_ID}`,
       accounts: [process.env.PRIVATE_KEY],

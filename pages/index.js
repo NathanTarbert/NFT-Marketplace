@@ -9,15 +9,23 @@ import Web3Modal from "web3modal";//allows us to connect to a Metamask wallet
 import { nftaddress, nftmarketaddress } from "../config";
 import NFT from "../artifacts/contracts/NFT.sol/NFT.json";
 import Market from "../artifacts/contracts/NFTMarket.sol/NFTMarket.json";
+import Loading from '../components/Spinner';
+
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 
 export default function Home() {
   const [nfts, setnfts] = useState([]);
   const [loadingState, setLoadingState] = useState(false);
+  const [loadingSpinner, setLoadingSpinner] = useState(true)
   useEffect(() => {
     loadNFTs();
+    setTimeout(() => {
+    setLoadingSpinner(false);  
+    }, 1000);
+    
   },[]);
 
   async function loadNFTs() {
@@ -84,8 +92,14 @@ export default function Home() {
     <div className="flex justify-center">
       <div className="px-4" style={{maxWidth: '1600px' }}>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4">
-         
+
+          {loadingSpinner === true &&
+              <div>
+                <Loading />
+              </div>
+          }
             { nfts.map((nft, index) => (
+             
               <div key={index} className="border shadow rounded-xl overflow-hidden">
                   <Image
                         src={nft.image}
@@ -109,7 +123,7 @@ export default function Home() {
                 <Link href={nft.tokenDetails}>
                   <a target="_blank">
                     <button className="mt-2  cursor-pointer w-full bg-gradient-to-r from-blue-500 to-cyan-200 text-white font-bold py-2 px-12 rounded">
-                      Details
+                      Details                     
                     </button>
                   </a>
                 </Link>
